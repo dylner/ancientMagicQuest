@@ -26,3 +26,4 @@ characters_list = ['Ragnor the Thunderlord', 'Eldritch the Timebender', 'Zephyr 
 
 # Determine winners
 
+#Sigma toilet
