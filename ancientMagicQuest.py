@@ -1,6 +1,6 @@
 import pygame
 # Ancient Magic Quest Game
-
+#Im HIMMMM!!
 # Import Modules
 
 # Characters - Ragnor the Thunderlord, Eldritch the Timebender, Zephyr the Windwalker, Frostbite the Ice Magician
@@ -15,3 +15,4 @@ characters_list = ['Ragnor the Thunderlord', 'Eldritch the Timebender', 'Zephyr 
 # Rolls
 
 # Determine winners
+
