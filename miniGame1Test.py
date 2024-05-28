@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
 
 	def player_input(self):
 		keys = pygame.key.get_pressed()
-		if keys[pygame.K_SPACE] and self.rect.bottom >= 480:
+		if keys[pygame.K_SPACE] and self.rect.bottom >= 4800:
 			self.gravity = -20
 			self.jump_sound.play()
 
@@ -51,7 +51,7 @@ class Obstacle(pygame.sprite.Sprite):
 			fly_1 = pygame.image.load('Images/fly1.png').convert_alpha()
 			fly_2 = pygame.image.load('Images/fly2.png').convert_alpha()
 			self.frames = [fly_1,fly_2]
-			y_pos = 415
+			y_pos = 350
 		else:
 			snail_1 = pygame.image.load('Images/firerun1.png').convert_alpha()
 			snail_2 = pygame.image.load('Images/firerun2.png').convert_alpha()
@@ -60,7 +60,7 @@ class Obstacle(pygame.sprite.Sprite):
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
-		self.rect = self.image.get_rect(midbottom = (randint(1350,1550),y_pos))
+		self.rect = self.image.get_rect(midbottom = (randint(900,1100),y_pos))
 
 	def animation_state(self):
 		self.animation_index += 0.1
@@ -79,7 +79,7 @@ class Obstacle(pygame.sprite.Sprite):
 
 def display_score():
 	current_time = int(pygame.time.get_ticks() / 1000) - start_time
-	score_surf = test_font.render(f'Score: {current_time}',False,('White'))
+	score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
 	score_rect = score_surf.get_rect(center = (640,100))
 	screen.blit(score_surf,score_rect)
 	return current_time
@@ -123,10 +123,12 @@ pygame.init()
 screen = pygame.display.set_mode((1280,720))
 pygame.display.set_caption('Runner')
 clock = pygame.time.Clock()
-test_font = pygame.font.Font('Font/font.ttf', 30)
+test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
 score = 0
+bg_music = pygame.mixer.Sound('Audio/bg.music.mp3')
+bg_music.play(loops = -1)
 
 #Groups
 player = pygame.sprite.GroupSingle()
@@ -148,8 +150,8 @@ snail_frame_index = 0
 snail_surf = snail_frames[snail_frame_index]
 
 # Fly
-fly_frame1 = pygame.image.load('Images/fly1.png').convert_alpha()
-fly_frame2 = pygame.image.load('Images/fly2.png').convert_alpha()
+fly_frame1 = pygame.image.load('Images/Fly1.png').convert_alpha()
+fly_frame2 = pygame.image.load('Images/Fly2.png').convert_alpha()
 fly_frames = [fly_frame1, fly_frame2]
 fly_frame_index = 0
 fly_surf = fly_frames[fly_frame_index]
@@ -168,14 +170,14 @@ player_rect = player_surf.get_rect(midbottom = (80,300))
 player_gravity = 0
 
 # Intro screen
-player_stand = pygame.image.load('Images/Player_stand.png').convert_alpha()
+player_stand = pygame.image.load('Images/player_stand.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2)
 player_stand_rect = player_stand.get_rect(center = (640,200))
 
-game_name = test_font.render('AMQ Mini Game 1',False,('White'))
+game_name = test_font.render('Pixel Runner',False,(111,196,169))
 game_name_rect = game_name.get_rect(center = (640,80))
 
-game_message = test_font.render('Press space to run',False,('White'))
+game_message = test_font.render('Press space to run',False,(111,196,169))
 game_message_rect = game_message.get_rect(center = (640,330))
 
 # Timer
@@ -183,7 +185,7 @@ obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer,1500)
 
 snail_animation_timer = pygame.USEREVENT + 2
-pygame.time.set_timer(snail_animation_timer,480)
+pygame.time.set_timer(snail_animation_timer,500)
 
 fly_animation_timer = pygame.USEREVENT + 3
 pygame.time.set_timer(fly_animation_timer,200)
@@ -210,7 +212,7 @@ while True:
 
 		if game_active:
 			if event.type == obstacle_timer:
-				obstacle_group.add(Obstacle(choice(['snail','snail','snail','snail'])))
+				obstacle_group.add(Obstacle(choice(['fly','snail','snail','snail'])))
 				# if randint(0,2):
 				# 	obstacle_rect_list.append(snail_surf.get_rect(bottomright = (randint(900,1100),300)))
 				# else:
@@ -229,7 +231,7 @@ while True:
 
 	if game_active:
 		screen.blit(sky_surface,(0,0))
-		screen.blit(ground_surface,(0,480))
+		screen.blit(ground_surface,(0,300))
 		# pygame.draw.rect(screen,'#c0e8ec',score_rect)
 		# pygame.draw.rect(screen,'#c0e8ec',score_rect,10)
 		# screen.blit(score_surf,score_rect)
@@ -262,10 +264,10 @@ while True:
 		screen.fill((94,129,162))
 		screen.blit(player_stand,player_stand_rect)
 		obstacle_rect_list.clear()
-		player_rect.midbottom = (640,480)
+		player_rect.midbottom = (80,300)
 		player_gravity = 0
 
-		score_message = test_font.render(f'Your score: {score}',False,('White'))
+		score_message = test_font.render(f'Your score: {score}',False,(111,196,169))
 		score_message_rect = score_message.get_rect(center = (640,360))
 		screen.blit(game_name,game_name_rect)
 
